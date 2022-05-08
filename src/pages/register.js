@@ -5,7 +5,9 @@ import { register } from '../actions/auth'
 import Loader from 'react-loader-spinner'
 
 const RegisterPage = () => {
-    const loading = useSelector(state => this.state.auth.loading);
+    const dispatch = useDispatch();
+    const register_success = useSelector(state => state.auth.register_success);
+    const loading = useSelector(state => state.auth.loading);
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -28,6 +30,8 @@ const RegisterPage = () => {
     const onSubmit = e => {
         e.preventDefault();
 
+        if (dispatch && dispatch !== null && dispatch != undefined)
+            dispatch(register(first_name, last_name, username, password, re_password));
     }
 
     return (
