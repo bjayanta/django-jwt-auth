@@ -33,7 +33,7 @@ export default async (req, res) => {
             if(apiRes.status === 201) {
                 return res.status(201).json({ 'success': data.success });
             } else {
-                return res.status(api.Res.status).json({ 'error': data.error });
+                return res.status(apiRes.status).json({ 'error': data.error });
             }
         } catch (error) {
             return res.status(500).json({ 'error': 'Something went wrong when registering for an account.' });

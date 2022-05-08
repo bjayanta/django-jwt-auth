@@ -1,7 +1,12 @@
 import { useState } from "react";
 import Layout from "../hocs/Layout";
+import { useSelector, useDispatch } from 'react-redux'
+import { register } from '../actions/auth'
+import Loader from 'react-loader-spinner'
 
 const RegisterPage = () => {
+    const loading = useSelector(state => this.state.auth.loading);
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
