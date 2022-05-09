@@ -4,6 +4,8 @@ import {
     RESET_REGISTER_SUCCESS,
     LOGIN_SUCCESS, 
     LOGIN_FAIL,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAIL,
     SET_AUTH_LOADING,
     REMOVE_AUTH_LOADING
 } from "./types";
@@ -67,7 +69,7 @@ export const login = (username, password) => async dispatch => {
     });
 
     try {
-        const res = await fetch('api/account/login', {
+        const res = await fetch('/api/account/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -98,3 +100,28 @@ export const login = (username, password) => async dispatch => {
         type: REMOVE_AUTH_LOADING
     });
 };
+
+export const logout = () => async dispatch => {
+    try {
+        const res = await fetch('/api/account/logout', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
+
+        if(res.status === 200) {
+            dispatch({
+                type: LOGOUT_SUCCESS
+            });
+        } else {
+            dispatch({
+                type: LOGOUT_FAIL
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: LOGOUT_FAIL
+        });
+    }
+}

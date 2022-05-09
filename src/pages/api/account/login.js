@@ -20,7 +20,7 @@ export default async (req, res) => {
 
             const data = await apiRes.json();
 
-            if(res.status === 200) {
+            if(apiRes.status === 200) {
                 res.setHeader('Set-Cookie', [
                     cookie.serialize(
                         'access', data.access, {
@@ -56,7 +56,7 @@ export default async (req, res) => {
             });
         }
     } else {
-        req.setHeader('Allow', ['POST']);
+        res.setHeader('Allow', ['POST']);
         
         return res.status(405).json({
             error: `Method ${req.method} not allowed.`
