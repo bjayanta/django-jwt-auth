@@ -28,6 +28,12 @@ const Navbar = () => {
                                 <a className={router.pathname === '/register' ? 'nav-link active' : 'nav-link'} aria-current='page'>Register</a>
                             </Link>
                         </li>
+
+                        <li className='nav-item'>
+                            <Link href='/login'>
+                                <a className={router.pathname === '/login' ? 'nav-link active' : 'nav-link'} aria-current='page'>Login</a>
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </div>

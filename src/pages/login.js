@@ -1,32 +1,30 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Layout from "../hocs/Layout";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { register } from '../actions/auth'
+import { useRouter } from "next/router";
+import { login, reset_register_success } from '../actions/auth' 
+import Layout from "../hocs/Layout";
 import { Oval } from 'react-loader-spinner'
 
-const RegisterPage = () => {
+const LoginPage = () => {
     const dispatch = useDispatch();
-    const router = useRouter();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const register_success = useSelector(state => state.auth.register_success);
     const loading = useSelector(state => state.auth.loading);
+    const router = useRouter();
 
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
         username: '',
         password: '',
-        re_password: ''
     });
 
     const {
-        first_name,
-        last_name,
         username,
         password,
-        re_password
     } = formData;
+
+    useEffect(() => {
+        if (dispatch && dispatch !== null && dispatch != undefined)
+            dispatch(reset_register_success());
+    }, []);
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -34,34 +32,17 @@ const RegisterPage = () => {
         e.preventDefault();
 
         if (dispatch && dispatch !== null && dispatch != undefined)
-            dispatch(register(first_name, last_name, username, password, re_password));
+            dispatch(login(username, password));
     }
 
     if (typeof window !== 'undefined' && isAuthenticated)
-        router.push('/dashboard');
-
-    if (register_success)
-        router.push('/login');
+        router.push('/dashboard')
 
     return (
         <Layout>
-            <h1 className="display-4">Register page</h1>
+            <h1 className="display-4">Login page</h1>
             <form className="bg-light p-5 my-5" onSubmit={onSubmit}>
-                <h3>Create an account</h3>
-
-                <div className="form-group">
-                    <label htmlFor="first_name" className="form-label mt-5">
-                        <strong>First Name*</strong>
-                    </label>
-                    <input type="text" name="first_name" onChange={onChange} value={first_name} className="form-control" placeholder="First name" required />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="last_name" className="form-label mt-3">
-                        <strong>Last Name*</strong>
-                    </label>
-                    <input type="text" name="last_name" onChange={onChange} value={last_name} className="form-control" placeholder="Last name" required />
-                </div>
+                <h3>Login to your account</h3>
 
                 <div className="form-group">
                     <label htmlFor="username" className="form-label mt-3">
@@ -77,20 +58,13 @@ const RegisterPage = () => {
                     <input type="password" name="password" onChange={onChange} value={password} className="form-control" placeholder="Password" minLength='8' required />
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="re_password" className="form-label mt-3">
-                        <strong>Confirm Password*</strong>
-                    </label>
-                    <input type="password" name="re_password" onChange={onChange} value={re_password} className="form-control" placeholder="Confirm Password" minLength='8' required />
-                </div>
-
                 {
                     loading ? (
                         <div className="d-flex justify-content-center align-items-center mt-5">
                             <Oval color='#00bfff' width={50} height={50} ariaLabel='loading' />
                         </div>
                     ) : (
-                        <button type="submit" className="btn btn-primary mt-5">Create Account</button>
+                        <button type="submit" className="btn btn-primary mt-5">Login </button>
                     )
                 }
             </form>
@@ -98,4 +72,4 @@ const RegisterPage = () => {
     );
 }
 
-export default RegisterPage;
+export default LoginPage;
