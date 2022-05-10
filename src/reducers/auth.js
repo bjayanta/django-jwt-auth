@@ -6,6 +6,10 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+    LOAD_USER_SUCCESS, 
+    LOAD_USER_FAIL,
+    AUTHENTICATED_SUCCESS,
+    AUTHENTICATED_FAIL,
     SET_AUTH_LOADING,
     REMOVE_AUTH_LOADING
 } from "../actions/types";
@@ -52,7 +56,30 @@ const authReducer = (state = initialState, action) => {
             }
         case LOGOUT_FAIL:
             return {
-                ...state
+                ...state,
+                user: null
+            }
+        case LOAD_USER_SUCCESS:
+            return {
+                ...state,
+                user: payload.user
+
+            } 
+        case LOAD_USER_FAIL:
+            return {
+                ...state,
+                user: null
+            }
+        case AUTHENTICATED_SUCCESS:
+            return {
+                ...state,
+                isAuthenticated: true
+            }
+        case AUTHENTICATED_FAIL:
+            return {
+                ...state,
+                isAuthenticated: false,
+                user: null
             }
         case SET_AUTH_LOADING:
             return {

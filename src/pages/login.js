@@ -12,8 +12,8 @@ const LoginPage = () => {
     const router = useRouter();
 
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
+        username: 'bjayanta',
+        password: '123456789',
     });
 
     const {
@@ -24,7 +24,7 @@ const LoginPage = () => {
     useEffect(() => {
         if (dispatch && dispatch !== null && dispatch != undefined)
             dispatch(reset_register_success());
-    }, []);
+    }, [dispatch]);
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 

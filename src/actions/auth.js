@@ -6,6 +6,10 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+    LOAD_USER_SUCCESS, 
+    LOAD_USER_FAIL,
+    AUTHENTICATED_SUCCESS,
+    AUTHENTICATED_FAIL,
     SET_AUTH_LOADING,
     REMOVE_AUTH_LOADING
 } from "./types";
@@ -85,6 +89,8 @@ export const login = (username, password) => async dispatch => {
             dispatch({
                 type: LOGIN_SUCCESS
             });
+
+            dispatch(load_user());
         } else {
             dispatch({
                 type: LOGIN_FAIL
@@ -122,6 +128,59 @@ export const logout = () => async dispatch => {
     } catch (error) {
         dispatch({
             type: LOGOUT_FAIL
+        });
+    }
+}
+
+export const load_user = () => async dispatch => {
+    try {
+        const res = await fetch('/api/account/user', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const data = await res.json();
+
+        if(res.status === 200) {
+            dispatch({
+                type: LOAD_USER_SUCCESS,
+                payload: data
+            });
+        } else {
+            dispatch({
+                type: LOAD_USER_FAIL
+            });
+        }
+    } catch (error) {
+        
+    }
+}
+
+export const check_auth_status = () => async dispatch => {
+    try {
+        const res = await fetch('/api/account/verify', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
+
+        if(res.status === 200) {
+            dispatch({
+                type: AUTHENTICATED_SUCCESS
+            });
+
+            dispatch(load_user());
+        } else {
+            dispatch({
+                type: AUTHENTICATED_FAIL
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: AUTHENTICATED_FAIL
         });
     }
 }
